@@ -21,7 +21,7 @@ const createRouter = () => {
   router.get('/', async (req, res) => {
     let query;
     if(req.query.artist) {
-      query = {artist: req.query.artist}
+      query = {artist: req.query.artist};
     }
     try {
       const albums = await Album.find(query).populate("artist");

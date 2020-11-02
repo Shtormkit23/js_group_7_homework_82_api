@@ -9,23 +9,26 @@ const createRouter = () => {
     let trackQuery;
 
     if(req.query.album) {
-      albumIds.push(req.query.album)
-      trackQuery = { album: { $in: albumIds }}
+      albumIds.push(req.query.album);
+      trackQuery = { album: { $in: albumIds }};
     }
 
     try {
       if(req.query.artist) {
-        query = {artist: req.query.artist}
-        const albums = await Album.find(query)
+        query = {artist: req.query.artist};
+        const albums = await Album.find(query);
 
         albums.map(function(num) {
           return albumIds.push(num._id);
         });
 
-        trackQuery = { album: { $in: albumIds }}
+        trackQuery = { album: { $in: albumIds }};
       }
 
-      const tracks = await Track.find(trackQuery).populate("album");
+      const tracks = await Track.find(trackQuery).populate({
+        path: "album",
+        populate: "artist",
+      });
 
       res.send(tracks);
     } catch (e) {
