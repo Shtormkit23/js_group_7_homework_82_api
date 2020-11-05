@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const idValidator = require("mongoose-id-validator");
 const Schema = mongoose.Schema;
 
 const AlbumSchema = new Schema({
@@ -18,5 +18,8 @@ const AlbumSchema = new Schema({
     image: String
 });
 
+AlbumSchema.plugin(idValidator, {
+    message: "Указанного альбома не существует"
+});
 const Album = mongoose.model("Album", AlbumSchema);
 module.exports = Album;
