@@ -2,14 +2,14 @@ const express = require("express");
 const artists = require("./app/artists");
 const albums = require("./app/albums");
 const tracks = require("./app/tracks");
-
-
+const track_history = require("./app/track_history");
+const users = require("./app/users");
 
 const cors = require("cors");
 const mongoose = require("mongoose");
 
 const app = express();
-const port = 8000;
+const port = 8001;
 
 
 app.use(cors());
@@ -19,9 +19,12 @@ app.use(express.static("public"));
 const run = async () => {
     await mongoose.connect("mongodb://localhost/music", {useNewUrlParser: true});
 
-    app.use("/artists", artists());
-    app.use("/albums", albums());
-    app.use("/tracks", tracks());
+    app.use("/artists", artists);
+    app.use("/albums", albums);
+    app.use("/tracks", tracks);
+    app.use("/track_history", track_history);
+    app.use("/users", users);
+
 
     console.log("Connected to mongoDB");
 
