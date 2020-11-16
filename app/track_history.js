@@ -2,17 +2,26 @@ const router = require("express").Router();
 const TrackHistory = require("../models/TrackHistory");
 const Track = require("../models/Track");
 const User = require("../models/User");
+const auth = require("../middleware/auth");
 
 
-router.post("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
+    try {
+        const history = await TrackHistory.find({user: req.user._id}).sort({datetime: -1}).populate({
+            path: "track",
+            populate: ({path:"album", populate: "artist"})
+        });
+
+        res.send(history)
+    } catch (e) {
+        res.status(422).send(e);
+    }
+});
+
+
+router.post("/", auth, async (req, res) => {
     const token = req.get('Authorization');
-    if (!token) {
-        return res.status(401).send({error: 'No token present'});
-    }
     const userToken = await User.findOne({token});
-    if (!userToken) {
-        return res.status(401).send({error: 'Wrong token!'});
-    }
 
     const trackHistoryData = req.body;
     trackHistoryData.datetime = new Date();
