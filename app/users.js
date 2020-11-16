@@ -20,7 +20,16 @@ router.post("/", async (req, res) => {
     }
 });
 router.post("/sessions", async (req, res) => {
-    const user = await User.findOne({username: req.body.username});
+
+    const checkEmail = /^[\w-.]+@(\b[a-z-]+\b)[^-].[a-z]{2,10}$/g;
+
+    let queryKey = "username";
+
+    if (checkEmail.test(req.body.username)) {
+        queryKey = "email";
+    }
+
+    const user = await User.findOne({[queryKey]: req.body.username});
     if (!user) {
         return res.status(400).send({error: "Username not found"});
     }
@@ -30,12 +39,9 @@ router.post("/sessions", async (req, res) => {
     }
 
     user.generateToken();
-    await user.save();
+    await user.save({validateBeforeSave: false});
 
-    const token = user.token;
-
-    res.send({token});
+    res.send(user);
 });
 
 module.exports = router;
-
