@@ -9,18 +9,48 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     username: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, "Поле username обязательно для заполнения"],
+        unique: true,
+        validate: {
+            validator: async (value) => {
+                const user = await User.findOne({username: value});
+                if (user) return false;
+            },
+            message: (props) => `Пользователь ${props.value} уже существует`
+        }
+    },
+    email: {
+        type: String,
+        required: [true, "Поле email обязательно для заполнения"],
+        unique: true,
+        validate: {
+            validator: async (value) => {
+                const user = await User.findOne({email: value});
+                if (user) return false;
+            },
+            message: (props) => `Почта ${props.value} уже используется`
+        }
     },
     password: {
         type: String,
-        required: true
+        required: [true, "Поле password обязательно для заполнения"],
+        minlength: [8, "Минимальная длина пароля 8 символов"],
+        validate: {
+            validator: (value) => {
+                return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/g.test(value);
+            },
+            message: "Пароль слишком простой"
+        }
     },
     token: {
         type: String,
         required: true
     }
 });
+
+UserSchema.path("email").validate(value => {
+    return /^[\w-.]+@(\b[a-z-]+\b)[^-].[a-z]{2,10}$/g.test(value);
+}, "Введите правильный почтовый ящик");
 
 UserSchema.pre("save", async function(next) {
     if (!this.isModified("password")) return next();
@@ -32,11 +62,8 @@ UserSchema.pre("save", async function(next) {
 });
 
 UserSchema.set("toJSON", {
-    transform: (doc, ret, options) => {
+    transform: (doc, ret) => {
         delete ret.password;
-        delete ret.username;
-        delete ret._id;
-        delete ret.__v;
         return ret;
     }
 });
