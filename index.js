@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 const run = async () => {
-    await mongoose.connect("mongodb://localhost/music", {useNewUrlParser: true});
+    await mongoose.connect("mongodb://localhost/music", {useNewUrlParser: true, autoIndex: true});
 
     app.use("/artists", artists);
     app.use("/albums", albums);
