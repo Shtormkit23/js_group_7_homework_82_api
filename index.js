@@ -4,6 +4,7 @@ const albums = require("./app/albums");
 const tracks = require("./app/tracks");
 const track_history = require("./app/track_history");
 const users = require("./app/users");
+const config = require("./config");
 
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -17,7 +18,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 const run = async () => {
-    await mongoose.connect("mongodb://localhost/music", {useNewUrlParser: true, autoIndex: true});
+    await mongoose.connect(config.db.url + "/" + config.db.name, {useNewUrlParser: true, autoIndex: true});
 
     app.use("/artists", artists);
     app.use("/albums", albums);
