@@ -118,12 +118,14 @@ db.once("open", async () => {
         username: "user",
         email: "user@shop.com",
         password: "12345678Kk",
-        token: nanoid()
+        token: nanoid(),
+        role: "user"
     }, {
         username: "admin",
         email: "admin@shop.com",
         password: "12345678Kk",
-        token: nanoid()
+        token: nanoid(),
+        role: "admin"
     });
     await TrackHistory.create({
         track: theStoryOfThePaperBoy._id,

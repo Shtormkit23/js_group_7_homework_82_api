@@ -13,9 +13,16 @@ const AlbumSchema = new Schema({
         required: true
     },
     year_of_issue: {
-      type: Date
+        type: Date,
+        required: true
     },
-    image: String
+    image: String,
+    published: {
+        type: Boolean,
+        required: true,
+        default: false,
+        enum: [false, true]
+    }
 });
 
 AlbumSchema.plugin(idValidator, {
