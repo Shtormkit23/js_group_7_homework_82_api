@@ -5,6 +5,7 @@ const tracks = require("./app/tracks");
 const track_history = require("./app/track_history");
 const users = require("./app/users");
 const publish = require("./app/publish");
+const deletion = require("./app/deletion");
 const config = require("./config");
 
 const cors = require("cors");
@@ -27,6 +28,7 @@ const run = async () => {
     app.use("/track_history", track_history);
     app.use("/users", users);
     app.use("/publish", publish);
+    app.use("/deletion", deletion);
 
     console.log("Connected to mongoDB");
 
