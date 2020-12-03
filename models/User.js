@@ -51,7 +51,22 @@ const UserSchema = new Schema({
         required: true,
         default: 'user',
         enum: ['user', 'admin']
+    },
+    avatarImage: String,
+    facebookImage: String,
+    facebookId: String,
+    displayName: {
+    type: String,
+        required: [true, "Поле display name обязательно для заполнения"],
+        unique: true,
+        validate: {
+        validator: async (value) => {
+            const user = await User.findOne({displayName: value});
+            if (user) return false;
+        },
+            message: (props) => `Пользователь ${props.value} уже существует`
     }
+},
 });
 
 UserSchema.path("email").validate(value => {
