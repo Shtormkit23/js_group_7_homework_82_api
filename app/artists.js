@@ -4,9 +4,7 @@ const path = require("path");
 const {nanoid} = require("nanoid");
 const config = require("../config");
 const Artist = require("../models/Artist");
-const Album = require("../models/Album");
 const auth = require("../middleware/auth");
-const permit = require("../middleware/permit");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -29,7 +27,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post("/", upload.single("image"), async (req, res) => {
+router.post("/", auth, upload.single("image"), async (req, res) => {
     const artistData = req.body;
 
     if (req.file) {
@@ -42,30 +40,6 @@ router.post("/", upload.single("image"), async (req, res) => {
         res.send(artist);
     } catch (e) {
         res.status(400).send(e);
-    }
-});
-
-router.put("/:id", [auth, permit('admin')], async (req, res) => {
-    try {
-        const artist = await Artist.findById(req.params.id);
-        artist.published = !artist.published
-        await artist.save();
-        return res.send({ message: `${req.params.id} published` });
-    } catch (e) {
-        return res.status(422).send(e);
-    }
-});
-
-router.delete("/:id", [auth, permit('admin')], async (req, res) => {
-    try {
-        const albums = await Album.find({artist: req.params.id})
-        if (albums.length > 0) {
-            return res.status(422).send({message: 'Delete related fields first'});
-        }
-        await Artist.findOneAndRemove({_id: req.params.id});
-        return res.send({ message: `${req.params.id} removed` });
-    } catch (e) {
-        return res.status(422).send(e);
     }
 });
 
