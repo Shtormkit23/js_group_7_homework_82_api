@@ -5,17 +5,17 @@ const Schema = mongoose.Schema;
 const TrackSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: [true, "Поле title обязательно для заполнения"],
     },
     album: {
         type: Schema.Types.ObjectId,
         ref: "Album",
-        required: true
+        required: [true, "Поле album обязательно для заполнения"],
     },
     duration: String,
     number: {
         type: String,
-        required: true
+        required: [true, "Поле number обязательно для заполнения"],
     },
     published: {
         type: Boolean,

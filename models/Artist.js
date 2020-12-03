@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const ArtistSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: [true, "Поле name обязательно для заполнения"]
     },
     image: String,
     description: String,
