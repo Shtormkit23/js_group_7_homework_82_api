@@ -12,7 +12,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const app = express();
-const port = 8001;
+const port = process.env.NODE_ENV === "test" ? 8010 : 8000;
 
 
 app.use(cors());
