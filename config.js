@@ -2,11 +2,17 @@ const path = require("path");
 
 const rootPath = __dirname;
 
+let dbName = "music"
+
+if(process.env.NODE_ENV === "test") {
+  dbName = "music_test";
+}
+
 module.exports = {
   rootPath,
   uploadPath: path.join(rootPath, "public/uploads"),
   db: {
-    name: "music",
+    name: dbName,
     url: "mongodb://localhost"
   },
   fb: {
