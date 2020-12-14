@@ -36,7 +36,7 @@ router.post("/", upload.single("avatarImage"), async (req, res) => {
         await user.save();
         res.send(userData);
     } catch(e) {
-        return res.send(e);
+        return res.status(400).send(e);
     }
 });
 router.post("/sessions", async (req, res) => {
