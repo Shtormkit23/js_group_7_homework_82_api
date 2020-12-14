@@ -28,41 +28,47 @@ db.once("open", async () => {
             "known professionally as Powfu, is a Canadian rapper, singer and songwriter. " +
             "He amassed popularity following the release of his first charting single, \"" +
             "Death Bed (Coffee for Your Head)\", which peaked at #23 on the Billboard Hot 100.",
-        image: "powfu.jpg"
+        image: "powfu.jpg",
+        published: true
     }, {
         name: "Billie Eilish",
         description: "Billie Eilish Pirate Baird O'Connell " +
             "(born December 18, 2001) is an American singer-songwriter. " +
             "She first gained attention in 2015 when she uploaded the song \"Ocean Eyes\" to SoundCloud, " +
             "which was subsequently released by the Interscope Records subsidiary Darkroom",
-        image: "billie.webp"
+        image: "billie.webp",
+        published: true
     });
 
     const [
-        poemsOfThePast,
+        poems,
         someBoringLoveStories,
         dontSmileAtMe,
         liveAtThirdManRecords
     ] = await Album.create({
-        title: "Poems of the past",
+        title: "Poems",
         artist: powfu._id,
         image: "poemsofthepast.jpeg",
-        year_of_issue: "2007"
+        year_of_issue: "2007",
+        published: true
     }, {
         title: "Some Boring, Love Stories",
         artist: powfu._id,
         image: "lovestories.jpg",
-        year_of_issue: "2006"
+        year_of_issue: "2006",
+        published: true
     }, {
         title: "Live at Third Man Records",
         artist: billieEilish._id,
         image: "billie1.png",
-        year_of_issue: "2019"
+        year_of_issue: "2019",
+        published: true
     }, {
         title: "Dont Smile at Me",
         artist: billieEilish._id,
         image: "dontsmile.jpeg",
-        year_of_issue: "2020"
+        year_of_issue: "2020",
+        published: true
     });
     const [
         theStoryOfThePaperBoy,
@@ -75,14 +81,16 @@ db.once("open", async () => {
         iLoveYou
     ] = await Track.create({
         title: "The Story of the Paper Boy",
-        album: poemsOfThePast._id,
+        album: poems._id,
         duration: "02:20",
-        number: "1"
+        number: "1",
+        published: true
     },{
         title: "ill come back to you",
-        album: poemsOfThePast._id,
+        album: poems._id,
         duration: "02:15",
-        number: "2"
+        number: "2",
+        published: true
     }, {
         title: "death bed (coffee for your head)",
         album: someBoringLoveStories._id,
@@ -92,7 +100,8 @@ db.once("open", async () => {
         title: "Life Is Changing",
         album: someBoringLoveStories._id,
         duration: "03:05",
-        number: "2"
+        number: "2",
+        published: true
     }, {
         title: "im used to it",
         album: dontSmileAtMe._id,
@@ -102,12 +111,14 @@ db.once("open", async () => {
         title: "bellyache",
         album: dontSmileAtMe._id,
         duration: "03:10",
-        number: "2"
+        number: "2",
+        published: true
     }, {
         title: "All the Good Girls Go to Hell",
         album: liveAtThirdManRecords._id,
         duration: "03:20",
-        number: "1"
+        number: "1",
+        published: true
     }, {
         title: "I Love You",
         album: liveAtThirdManRecords._id,
@@ -119,45 +130,47 @@ db.once("open", async () => {
         email: "user@shop.com",
         password: "12345678Kk",
         token: nanoid(),
-        role: "user"
+        role: "user",
+        displayName: "user"
     }, {
         username: "admin",
         email: "admin@shop.com",
         password: "12345678Kk",
         token: nanoid(),
-        role: "admin"
+        role: "admin",
+        displayName: "admin"
     });
     await TrackHistory.create({
         track: theStoryOfThePaperBoy._id,
-        datetime: "Mon Nov 16 2020 18:16:54 GMT+0600 (Kyrgyzstan Time)",
+        datetime: "Mon Dec 14 2020 15:11:31 GMT+0600 (Kyrgyzstan Time)",
         user: user._id,
     }, {
         track: illComeBackToYou._id,
-        datetime: "Mon Nov 16 2020 18:16:55 GMT+0600 (Kyrgyzstan Time)",
+        datetime: "Mon Dec 13 2020 15:11:31 GMT+0600 (Kyrgyzstan Time)",
         user: admin._id,
     }, {
         track: deathBedCoffeeForYourHead._id,
-        datetime: "Mon Nov 16 2020 18:16:59 GMT+0600 (Kyrgyzstan Time)",
+        datetime: "Mon Dec 12 2020 15:11:31 GMT+0600 (Kyrgyzstan Time)",
         user: user._id,
     }, {
         track: lifeIsChanging._id,
-        datetime: "Mon Nov 16 2020 18:17:55 GMT+0600 (Kyrgyzstan Time)",
+        datetime: "Mon Dec 11 2020 15:11:31 GMT+0600 (Kyrgyzstan Time)",
         user: admin._id,
     }, {
         track: imUsedToIt._id,
-        datetime: "Mon Nov 15 2020 18:16:59 GMT+0600 (Kyrgyzstan Time)",
+        datetime: "Mon Dec 10 2020 15:11:31 GMT+0600 (Kyrgyzstan Time)",
         user: user._id,
     }, {
         track: bellyache._id,
-        datetime: "Mon Nov 17 2020 18:17:55 GMT+0600 (Kyrgyzstan Time)",
+        datetime: "Mon Dec 10 2020 15:11:31 GMT+0600 (Kyrgyzstan Time)",
         user: admin._id,
     }, {
         track: allTheGoodGirlsGoToHell._id,
-        datetime: "Mon Nov 18 2020 18:16:59 GMT+0600 (Kyrgyzstan Time)",
+        datetime: "Mon Dec 10 2020 15:11:31 GMT+0600 (Kyrgyzstan Time)",
         user: user._id,
     }, {
         track: iLoveYou._id,
-        datetime: "Mon Nov 18 2020 18:17:55 GMT+0600 (Kyrgyzstan Time)",
+        datetime: "Mon Dec 10 2020 15:11:31 GMT+0600 (Kyrgyzstan Time)",
         user: admin._id,
     });
 
